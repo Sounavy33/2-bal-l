@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#211a4c">
+  <title>GaIOTh — Fábrica Humana de Livros</title>
+  <style>
+    :root{--ink:#201b38;--violet:#4c3a91;--gold:#e7ad4a;--paper:#fffaf0;--line:#eadfc8;--green:#236b55}
+    *{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#f3ecff,#fffaf0,#e8f5f1);color:var(--ink);font-family:Georgia,serif}main{max-width:900px;margin:auto;padding:24px 16px 60px}.hero,.card{background:#ffffffdf;border:1px solid var(--line);border-radius:24px;padding:24px;margin:16px 0;box-shadow:0 15px 40px #211a4c18}.hero{background:linear-gradient(135deg,#211a4c,#4c3a91);color:var(--paper)}.eyebrow{font:700 .78rem Arial;letter-spacing:.15em;text-transform:uppercase;color:#f7cf74}h1{font-size:clamp(2.3rem,8vw,5rem);line-height:.95;margin:12px 0}h2{margin-top:0}.daily{font-size:1.18rem;line-height:1.6;border-left:4px solid var(--gold);padding-left:16px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{font-weight:bold;display:block}input,select,textarea{width:100%;padding:12px;margin-top:7px;border:1px solid var(--line);border-radius:12px;font:inherit}textarea{min-height:100px}button{border:0;border-radius:12px;padding:13px 17px;background:var(--violet);color:white;font-weight:bold;cursor:pointer;margin-top:12px}.result{white-space:pre-wrap;line-height:1.6;background:#fffdf8;border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:16px}.small{color:#675f80;font:.92rem Arial;line-height:1.5}@media(max-width:600px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<main>
+  <section class="hero"><div class="eyebrow">GaIOTh · A Borda</div><h1>Fábrica Humana de Livros</h1><p>Uma prova de conceito para transformar intenção, pesquisa e imaginação em uma estrutura de obra revisável.</p></section>
+  <section class="card"><h2>Manifesto do dia</h2><p id="daily" class="daily"></p><p class="small">A mensagem muda diariamente. A autoria, a revisão e as decisões continuam humanas.</p></section>
+  <section class="card"><h2>Começar uma obra</h2><p class="small">Este protótipo cria um esqueleto local. Ele não substitui pesquisa, orientação acadêmica, revisão humana ou checagem de fontes.</p><div class="grid"><label>Tipo de obra<select id="kind"><option>Livro</option><option>Almanaque histórico</option><option>Tese</option><option>História em quadrinhos</option><option>Roteiro de filme</option></select></label><label>Público<input id="audience" placeholder="ex.: infantojuvenil, acadêmico"></label></div><label style="margin-top:12px">Ideia central<textarea id="idea" placeholder="Escreva sua ideia, pergunta ou tema"></textarea></label><button id="build">Gerar estrutura inicial</button><div id="result" class="result" hidden></div></section>
+  <section class="card"><h2>As cinco salas</h2><div class="grid"><p><b>1. Semente</b><br>Escutar a ideia e delimitar o problema.</p><p><b>2. Pesquisa</b><br>Separar fatos, fontes, tradições e hipóteses.</p><p><b>3. Oficina</b><br>Construir texto, roteiro, imagens e código.</p><p><b>4. Revisão</b><br>Verificar qualidade, ética e coerência.</p><p><b>5. Lançamento</b><br>Publicar, licenciar, remunerar e continuar.</p></div></section>
+  <footer class="card small">GaIOTh · A Borda · prova de conceito editorial</footer>
+</main>
+<script>
+const messages=['A máquina acelera; a pessoa decide.','Toda contribuição merece registro e reconhecimento.','Conhecimento que gera valor deve retornar para quem o constrói.','A Borda conecta mundos sem apagar diferenças.','Fato, tradição e ficção devem ser identificados.','Nenhum patrocinador compra sozinho a alma da casa.','Criar é imaginar; revisar é assumir responsabilidade.'];
+document.getElementById('daily').textContent='“'+messages[Math.floor(Date.now()/86400000)%messages.length]+'”';
+document.getElementById('build').onclick=()=>{const kind=document.getElementById('kind').value,a=document.getElementById('audience').value||'leitor definido pelo autor',idea=document.getElementById('idea').value.trim(),r=document.getElementById('result');if(!idea){r.hidden=false;r.textContent='Escreva uma ideia para começar.';return}r.hidden=false;r.textContent=`TÍTULO PROVISÓRIO\nA definir a partir de: ${idea}\n\nTIPO\n${kind}\n\nPÚBLICO\n${a}\n\nESTRUTURA INICIAL\n1. Pergunta central e objetivo\n2. Contexto e personagens\n3. Pesquisa e fontes a verificar\n4. Desenvolvimento em capítulos ou cenas\n5. Revisão humana e classificação: fato, tradição ou ficção\n6. Versão para publicação\n\nPRÓXIMO PASSO\nEscolha as fontes, revise a estrutura e registre as contribuições. O GaIOTh ajuda a construir; a autoria e a decisão continuam humanas.`};
+</script>
+</body>
+</html>
