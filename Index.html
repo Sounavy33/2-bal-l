@@ -1,104 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0f172a">
-  <title>Guia do GitHub</title>
-  <style>
-    :root { --blue:#2563eb; --dark:#0f172a; --light:#f1f5f9; }
-    * { box-sizing:border-box; }
-    body { margin:0; color:var(--dark); background:var(--light); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
-    main { max-width:680px; margin:auto; padding:24px 18px 120px; }
-    .card { padding:24px; margin:14px 0; border-radius:22px; background:white; box-shadow:0 8px 24px #0f172a18; }
-    h1 { margin-top:0; font-size:clamp(2rem,9vw,3.5rem); }
-    p { line-height:1.55; }
-    .voice { width:92px; height:92px; border:0; border-radius:50%; color:#fff; background:var(--blue); font-size:38px; box-shadow:0 8px 24px #2563eb66; cursor:pointer; }
-    .voice.listening { background:#dc2626; animation:pulse 1s infinite; }
-    @keyframes pulse { 50% { transform:scale(1.08); } }
-    input { width:100%; padding:15px; border:1px solid #cbd5e1; border-radius:12px; font-size:16px; margin:8px 0; }
-    button.action, a.action { display:block; width:100%; padding:14px 16px; margin-top:10px; border:0; border-radius:12px; color:#fff; background:var(--blue); font-size:16px; font-weight:700; text-align:center; text-decoration:none; cursor:pointer; }
-    #status { min-height:25px; font-weight:600; }
-    .hint { color:#475569; font-size:.95rem; }
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#172554">
+<title>Estrela-Guia Tutu</title>
+<style>
+:root{--blue:#2563eb;--ink:#172554;--bg:#eff6ff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:700px;margin:auto;padding:24px 18px 100px}.card{background:#fff;border-radius:24px;padding:24px;margin:14px 0;box-shadow:0 8px 24px #17255420}h1{font-size:clamp(2rem,9vw,3.5rem);margin:0 0 8px}p{line-height:1.55}.mic{display:block;width:92px;height:92px;margin:22px auto;border:0;border-radius:50%;background:var(--blue);color:#fff;font-size:38px;box-shadow:0 8px 22px #2563eb66}.mic.on{background:#dc2626;animation:pulse 1s infinite}@keyframes pulse{50%{transform:scale(1.08)}}input{width:100%;padding:15px;border:1px solid #bfdbfe;border-radius:12px;font-size:16px}.action,.choice{display:block;width:100%;margin-top:10px;padding:14px;border:0;border-radius:12px;background:var(--blue);color:#fff;font-weight:700;font-size:16px;text-align:center;text-decoration:none}.choice{background:#dbeafe;color:var(--ink);text-align:left}.small{color:#475569;font-size:.94rem}#result[hidden]{display:none}.ok{color:#166534;font-weight:700}
+</style>
 </head>
-<body>
-  <main>
-    <div class="card">
-      <h1>Guia do GitHub</h1>
-      <p>Fale uma tarefa simples e eu mostro o botão para abrir o lugar certo.</p>
-      <button class="voice" id="voiceButton" aria-label="Falar comando">🎙️</button>
-      <p id="status">Toque no microfone e diga, por exemplo: “quero encontrar o log”.</p>
-      <input id="command" placeholder="Ou escreva: trocar branch, encontrar log..." autocomplete="off">
-      <button class="action" id="runButton">Guiar-me</button>
-    </div>
-
-    <div class="card" id="result" hidden>
-      <h2 id="resultTitle"></h2>
-      <p id="resultText"></p>
-      <a class="action" id="resultLink" target="_blank" rel="noopener">Abrir no GitHub</a>
-    </div>
-
-    <div class="card">
-      <h2>Comandos de exemplo</h2>
-      <p class="hint">“trocar branch” · “encontrar log” · “ver pull request” · “abrir arquivos”</p>
-    </div>
-  </main>
-
-  <script>
-    const repo = 'https://github.com/Sounavy33/2-bal-l';
-    const command = document.getElementById('command');
-    const status = document.getElementById('status');
-    const result = document.getElementById('result');
-    const title = document.getElementById('resultTitle');
-    const text = document.getElementById('resultText');
-    const link = document.getElementById('resultLink');
-
-    function guide(raw) {
-      const value = raw.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-      let destination;
-      if (value.includes('branch') || value.includes('ramo')) {
-        destination = ['Trocar ou consultar branch', 'Na página de branches, escolha o branch desejado.', `${repo}/branches`];
-      } else if (value.includes('log') || value.includes('historico') || value.includes('histórico') || value.includes('commit')) {
-        destination = ['Encontrar o log', 'Aqui você verá os commits e alterações do repositório.', `${repo}/commits`];
-      } else if (value.includes('pull') || value.includes('solicitacao') || value.includes('solicitação')) {
-        destination = ['Ver pull requests', 'Aqui ficam as solicitações de alteração do projeto.', `${repo}/pulls`];
-      } else if (value.includes('arquivo') || value.includes('codigo') || value.includes('código')) {
-        destination = ['Abrir arquivos do projeto', 'Esta é a página principal com os arquivos do repositório.', `${repo}/tree/main`];
-      } else {
-        status.textContent = 'Não reconheci esse comando. Tente “trocar branch” ou “encontrar log”.';
-        result.hidden = true;
-        return;
-      }
-      title.textContent = destination[0];
-      text.textContent = destination[1];
-      link.href = destination[2];
-      result.hidden = false;
-      status.textContent = 'Encontrei o caminho. Toque no botão azul para abrir.';
-    }
-
-    document.getElementById('runButton').addEventListener('click', () => guide(command.value));
-    command.addEventListener('keydown', event => { if (event.key === 'Enter') guide(command.value); });
-
-    const VoiceRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const voiceButton = document.getElementById('voiceButton');
-    if (!VoiceRecognition) {
-      voiceButton.disabled = true;
-      voiceButton.style.opacity = '.5';
-      status.textContent = 'O reconhecimento de voz não está disponível aqui. Digite o comando abaixo.';
-    } else {
-      const recognition = new VoiceRecognition();
-      recognition.lang = 'pt-BR';
-      recognition.interimResults = false;
-      recognition.onstart = () => { voiceButton.classList.add('listening'); status.textContent = 'Estou ouvindo...'; };
-      recognition.onend = () => voiceButton.classList.remove('listening');
-      recognition.onerror = () => { voiceButton.classList.remove('listening'); status.textContent = 'Não consegui ouvir. Tente novamente ou digite o comando.'; };
-      recognition.onresult = event => {
-        command.value = event.results[0][0].transcript;
-        guide(command.value);
-      };
-      voiceButton.addEventListener('click', () => recognition.start());
-    }
-  </script>
-</body>
-</html>
+<body><main>
+<section class="card"><h1>⭐ Estrela-Guia Tutu</h1><p>Fale do seu jeito. Eu reconheço palavras simples e mostro o caminho dentro do GitHub.</p><button class="mic" id="mic" aria-label="Falar com a Tutu">🎙️</button><p id="status">Toque no microfone e diga: “Tutu, encontrar o log”.</p><input id="command" placeholder="Ou escreva o que você quer fazer" autocomplete="off"><button class="action" id="go">Guiar-me</button></section>
+<section class="card" id="result" hidden><h2 id="title"></h2><p id="message"></p><a class="action" id="open" target="_blank" rel="noopener">Abrir este lugar no GitHub</a></section>
+<section class="card"><h2>Palavras fáceis</h2><p class="small">Você não precisa falar a frase exata. Pode dizer:</p><button class="choice" data-command="trocar branch">“branch”, “ramo” ou “trocar versão”</button><button class="choice" data-command="encontrar log">“log”, “histórico” ou “commits”</button><button class="choice" data-command="ver pull request">“pull”, “pedido” ou “alteração”</button><button class="choice" data-command="abrir arquivos">“arquivos”, “código” ou “pasta”</button><button class="choice" data-command="abrir ações">“ações”, “rodar código” ou “ver execução”</button><button class="choice" data-command="abrir configurações">“configuração” ou “configurar”</button></section>
+</main><script>
+const repo='https://github.com/Sounavy33/2-bal-l';
+const $=id=>document.getElementById(id), command=$('command'),status=$('status');
+const routes=[
+ {words:['branch','ramo','versao','trocar versao'],title:'Trocar ou consultar branch',message:'Escolha o branch desejado nesta página.',path:'/branches'},
+ {words:['log','historico','commit'],title:'Encontrar o log',message:'Aqui estão o histórico e os commits do projeto.',path:'/commits'},
+ {words:['pull','pedido','alteracao','solicitacao'],title:'Ver pull requests',message:'Aqui ficam os pedidos de alteração do projeto.',path:'/pulls'},
+ {words:['arquivo','codigo','pasta'],title:'Abrir os arquivos',message:'Esta é a página com os arquivos do repositório.',path:'/tree/main'},
+ {words:['acao','acoes','rodar codigo','execucao','workflow'],title:'Ver ações e execuções',message:'Aqui você pode acompanhar automações e execuções.',path:'/actions'},
+ {words:['configuracao','configurar','ajustes'],title:'Abrir configurações',message:'Esta área contém as configurações do repositório.',path:'/settings'}
+];
+function clean(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+function guide(text){const value=clean(text), found=routes.find(r=>r.words.some(w=>value.includes(w)));if(!found){$('result').hidden=true;status.textContent='Ainda não entendi. Tente dizer “log”, “branch”, “arquivos” ou “ações”.';return} $('title').textContent='⭐ '+found.title;$('message').textContent=found.message;$('open').href=repo+found.path;$('result').hidden=false;status.innerHTML='<span class="ok">Encontrei o caminho.</span> Toque no botão azul para abrir.'}
+$('go').onclick=()=>guide(command.value);command.onkeydown=e=>{if(e.key==='Enter')guide(command.value)};document.querySelectorAll('.choice').forEach(b=>b.onclick=()=>{command.value=b.dataset.command;guide(command.value)});
+const Speech=window.SpeechRecognition||window.webkitSpeechRecognition,mic=$('mic');if(!Speech){mic.disabled=true;mic.style.opacity='.5';status.textContent='O reconhecimento de voz não está disponível neste navegador. Você pode escrever o comando.'}else{const r=new Speech;r.lang='pt-BR';r.interimResults=false;r.onstart=()=>{mic.classList.add('on');status.textContent='Estou ouvindo...'};r.onend=()=>mic.classList.remove('on');r.onerror=()=>{mic.classList.remove('on');status.textContent='Não consegui ouvir. Tente novamente ou escreva uma palavra.'};r.onresult=e=>{command.value=e.results[0][0].transcript;guide(command.value)};mic.onclick=()=>r.start()}
+</script></body></html>
