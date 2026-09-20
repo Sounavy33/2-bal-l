@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SOUNAVY — Oficina de criação</title>
+  <style>
+    :root {
+      --ink: #21182f;
+      --paper: #fffaf0;
+      --soft: #f5efe6;
+      --line: #dac9ad;
+      --gold: #d8af5f;
+      --violet: #56409a;
+      --red: #a4544d;
+      --green: #4d756d;
+      --shadow: rgba(28,18,36,.18);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin:0; min-height:100%; background:#e7e0d8; color:var(--ink); font-family:Arial, Helvetica, sans-serif; }
+    body { min-height:100vh; }
+    .app { max-width: 1280px; margin: 0 auto; min-height:100vh; background:var(--paper); box-shadow:0 0 35px rgba(20,10,26,.12); }
+    .topbar {
+      background: var(--ink); color:#fff; display:flex; justify-content:space-between; align-items:center;
+      padding: 16px 5%; gap: 16px; flex-wrap: wrap;
+    }
+    .brand { letter-spacing:.28em; font-weight:800; text-transform: uppercase; font-size: .9rem; }
+    .nav { display:flex; gap:8px; flex-wrap:wrap; }
+    .nav a {
+      color:#fff; text-decoration:none; border:1px solid rgba(255,255,255,.25); border-radius:9px; padding:9px 12px;
+      font-size: .76rem; text-transform: uppercase; letter-spacing: .1em; font-weight:700;
+    }
+    .workspace {
+      padding: 22px 5% 80px; position:relative;
+    }
+    .panel-header {
+      display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:end;
+      margin-bottom: 18px;
+    }
+    .panel-header h1 {
+      margin:0; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2.4rem, 5vw, 4.2rem); letter-spacing:-.06em; line-height:.9;
+    }
+    .quick {
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .btn {
+      border:0; background: var(--gold); color: var(--ink); font-weight:800; font-size:.75rem;
+      text-transform:uppercase; letter-spacing:.12em; padding:10px 14px; border-radius:999px; cursor:pointer;
+    }
+    .btn.secondary { background:white; border:1px solid var(--line); }
+    .btn.danger { background:#f5d6d2; color:#703f3a; }
+    .sheet {
+      position:relative; width:min(100%, 940px); min-height: 1200px; background: var(--paper); border:1px solid var(--line);
+      box-shadow: 0 14px 28px rgba(24,16,32,.08); margin: 0 auto; overflow:hidden; border-radius: 20px;
+    }
+    .sheet::before {
+      content:""; position:absolute; inset:0; background-image:linear-gradient(to right, rgba(131,103,58,.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(131,103,58,.04) 1px, transparent 1px); background-size:32px 32px; pointer-events:none;
+    }
+    .block {
+      position:absolute; z-index:2; border:1px solid transparent; cursor:move; user-select:none; min-width:90px; min-height: 42px; padding:10px 12px;
+      background: rgba(255,255,255,.4); border-radius: 10px; color:var(--ink); box-shadow: 0 4px 14px rgba(28,18,36,.04);
+    }
+    .block.selected { border-color: var(--violet); box-shadow: 0 0 0 2px rgba(86,64,154,.15); }
+    .block.note { background:#fff5c7; border-color:#e6cd6e; }
+    .block.highlight { background:#fff3a6; border-color:#e4d46e; }
+    .block.link { background:#eae3ff; border-color:#b4a5e8; }
+    .block.image_block { background:#e7efe9; border-color:#b3c7bf; }
+    .block.image_block img { width:100%; height:auto; border-radius: 8px; }
+    .block.text_block { background:#f5f1ea; border-color:var(--line); }
+    .block .text { white-space: pre-wrap; font-size: 15px; line-height:1.3; }
+    .block .handle {
+      position:absolute; right:8px; top:6px; font-size:11px; color: rgba(33,24,47,.55); font-weight:700;
+    }
+    .write-note {
+      position: absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:min(420px, 80vw); background:#fff; border:1px solid var(--line); box-shadow: 0 16px 30px rgba(0,0,0,.12); border-radius:16px; padding:18px; z-index:40; display:none;
+    }
+    .write-note.show { display:block; }
+    .write-note textarea, .write-note input { width:100%; border:1px solid var(--line); border-radius:8px; padding:10px; font:inherit; }
+    .write-note textarea { min-height:90px; resize:vertical; }
+    .write-note h3 { margin:0 0 12px; font-size:1.4rem; }
+    .write-note .row { display:flex; justify-content:flex-end; gap:8px; margin-top:12px; }
+    .dot-tool {
+      position: fixed; right: 24px; bottom: 26px; z-index: 50; display:flex; flex-direction:column; align-items:center; gap:10px;
+    }
+    .tool-button {
+      width:54px; height:54px; border-radius:50%; background: var(--violet); color:#fff; border:0; box-shadow: 0 12px 24px rgba(86,64,154,.28); font-size:1.7rem; cursor:pointer; font-weight:700;
+    }
+    .tool-menu {
+      display:none; background:#fff; border:1px solid var(--line); box-shadow: 0 16px 28px rgba(16,8,24,.18); border-radius:16px; padding:8px; min-width: 200px;
+    }
+    .tool-menu.show { display:block; }
+    .tool-item {
+      border:0; background: transparent; width:100%; text-align:left; padding:10px 12px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; font-weight:700; cursor:pointer; color:var(--ink);
+    }
+    .tool-item:hover { background: #f5efe6; }
+    .status { font-size:.72rem; letter-spacing:.11em; text-transform:uppercase; color: rgba(33,24,47,.7); }
+    @media (max-width: 760px) {
+      .workspace { padding: 18px 14px 80px; }
+      .sheet { min-height: 1000px; }
+      .tool-button { width:48px; height:48px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">SOUNAVY</div>
+      <nav class="nav" aria-label="Menu"> 
+        <a href="index.html">Site</a>
+        <a href="projetos.html">Projetos</a>
+        <a href="editor.html">Oficina</a>
+      </nav>
+    </header>
+
+    <main class="workspace">
+      <div class="panel-header">
+        <div>
+          <div class="status">oficina de criação</div>
+          <h1>Diagramação livre</h1>
+        </div>
+        <div class="quick">
+          <button class="btn secondary" id="addText">＋ bloco</button>
+          <button class="btn secondary" id="addImage">＋ imagem</button>
+          <button class="btn" id="saveBtn">Salvar</button>
+        </div>
+      </div>
+
+      <div id="sheet" class="sheet" aria-label="Área de trabalho da página"></div>
+    </main>
+  </div>
+
+  <div class="write-note" id="noteModal" aria-live="polite">
+    <h3 id="modalTitle">Nova anotação</h3>
+    <textarea id="noteText" placeholder="Escreva sua observação, marcação, frase, passagem ou contexto..."></textarea>
+    <input id="linkValue" type="url" placeholder="https://... (opcional)" style="display:none; margin-top:10px;">
+    <div class="row">
+      <button class="btn secondary" id="cancelNote">Cancelar</button>
+      <button class="btn" id="confirmNote">Salvar</button>
+    </div>
+  </div>
+
+  <div class="dot-tool">
+    <div class="tool-menu" id="toolMenu">
+      <button class="tool-item" data-action="note"><span>Anotar</span> <span>✎</span></button>
+      <button class="tool-item" data-action="mark"><span>Marcar</span> <span>✦</span></button>
+      <button class="tool-item" data-action="image"><span>Imagem</span> <span>◼</span></button>
+      <button class="tool-item" data-action="link"><span>Link</span> <span>↗</span></button>
+      <button class="tool-item" data-action="block"><span>Bloco</span> <span>▣</span></button>
+      <button class="tool-item" data-action="close"><span>Fechar</span> <span>×</span></button>
+    </div>
+    <button class="tool-button" id="floatingTool" title="Canetinha SOUNAVY" aria-label="Ferramentas de marcação">✎</button>
+  </div>
+
+  <script>
+    const sheet = document.getElementById('sheet');
+    const noteModal = document.getElementById('noteModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const noteText = document.getElementById('noteText');
+    const linkValue = document.getElementById('linkValue');
+    const floatingTool = document.getElementById('floatingTool');
+    const toolMenu = document.getElementById('toolMenu');
+    let currentAction = null;
+    let activeId = null;
+
+    function uid() {
+      return 'b-' + Date.now() + '-' + Math.random().toString(16).slice(2);
+    }
+
+    function createBlock({ x = 120, y = 120, type = 'note', text = 'Texto', link = '', url = '' }) {
+      const block = document.createElement('div');
+      block.className = 'block ' + type;
+      block.dataset.id = uid();
+      block.dataset.type = type;
+      block.style.left = x + 'px';
+      block.style.top = y + 'px';
+      if (type === 'image') {
+        const image = document.createElement('img');
+        image.src = url || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="180"%3E%3Crect width="300" height="180" fill="%23dfe9e0"/%3E%3Ctext x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="20" fill="%23665766"%3EImagem%3C/text%3E%3C/svg%3E';
+        block.appendChild(image);
+      } else {
+        const inner = document.createElement('div');
+        inner.className = 'text';
+        inner.textContent = text;
+        block.appendChild(inner);
+        if (type === 'link') {
+          const a = document.createElement('a');
+          a.href = link || '#';
+          a.target = '_blank';
+          a.rel = 'noreferrer';
+          a.textContent = 'Abrir link';
+          a.style.display = 'inline-block';
+          a.style.marginTop = '8px';
+          a.style.fontWeight = '700';
+          a.style.color = '#27204f';
+          a.style.textDecoration = 'underline';
+          block.appendChild(a);
+        }
+      }
+      const handle = document.createElement('span');
+      handle.className = 'handle';
+      handle.textContent = '⋮';
+      block.appendChild(handle);
+      sheet.appendChild(block);
+
+      block.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectBlock(block);
+      });
+      makeDraggable(block);
+      return block;
+    }
+
+    function selectBlock(block) {
+      document.querySelectorAll('.block.selected').forEach(el => el.classList.remove('selected'));
+      block.classList.add('selected');
+      activeId = block.dataset.id;
+    }
+
+    function makeDraggable(el) {
+      let dragging = false;
+      let offsetX = 0, offsetY = 0;
+      el.addEventListener('pointerdown', (e) => {
+        if (e.target.closest('button, a, input, textarea')) return;
+        dragging = true;
+        selectBlock(el);
+        const rect = sheet.getBoundingClientRect();
+        offsetX = e.clientX - rect.left - el.offsetLeft;
+        offsetY = e.clientY - rect.top - el.offsetTop;
+        el.setPointerCapture(e.pointerId);
+      });
+      el.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        const rect = sheet.getBoundingClientRect();
+        const x = e.clientX - rect.left - offsetX;
+        const y = e.clientY - rect.top - offsetY;
+        el.style.left = Math.max(8, Math.min(sheet.clientWidth - 120, x)) + 'px';
+        el.style.top = Math.max(8, Math.min(sheet.clientHeight - 80, y)) + 'px';
+      });
+      el.addEventListener('pointerup', () => { dragging = false; saveState(); });
+      el.addEventListener('pointerleave', () => { dragging = false; saveState(); });
+    }
+
+    function openModal(title, type) {
+      modalTitle.textContent = title;
+      currentAction = type;
+      noteText.value = '';
+      linkValue.style.display = type === 'link' ? 'block' : 'none';
+      linkValue.value = '';
+      noteModal.classList.add('show');
+      noteText.focus();
+    }
+
+    function closeModal() {
+      noteModal.classList.remove('show');
+      currentAction = null;
+    }
+
+    function createFromAction() {
+      const text = noteText.value.trim();
+      if (!text && currentAction !== 'image') return;
+
+      if (currentAction === 'note') {
+        createBlock({ x: 110 + Math.random()*120, y: 100 + Math.random()*120, type: 'note', text });
+      }
+      if (currentAction === 'mark') {
+        createBlock({ x: 120 + Math.random()*120, y: 180 + Math.random()*120, type: 'highlight', text: 'MARCAÇÃO: ' + text });
+      }
+      if (currentAction === 'block') {
+        createBlock({ x: 150 + Math.random()*100, y: 210 + Math.random()*90, type: 'text_block', text });
+      }
+      if (currentAction === 'link') {
+        const url = linkValue.value.trim();
+        if (!url) return;
+        createBlock({ x: 180 + Math.random()*130, y: 240 + Math.random()*110, type: 'link', text: text || 'Link relacionado', link: url });
+      }
+      saveState();
+      closeModal();
+    }
+
+    function addTextBlock() {
+      const text = prompt('Escreva o texto do bloco:', 'Nova passagem');
+      if (!text || !text.trim()) return;
+      createBlock({ x: 150 + Math.random()*140, y: 200 + Math.random()*120, type: 'text_block', text: text.trim() });
+      saveState();
+    }
+
+    function addImageBlock() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = () => {
+        const file = input.files && input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          const url = reader.result;
+          const block = createBlock({ x: 260 + Math.random()*120, y: 260 + Math.random()*100, type: 'image', url });
+          const label = document.createElement('div');
+          label.className = 'text';
+          label.textContent = file.name;
+          label.style.fontSize = '12px';
+          label.style.marginTop = '8px';
+          block.appendChild(label);
+          saveState();
+        };
+        reader.readAsDataURL(file);
+      };
+      input.click();
+    }
+
+    function saveState() {
+      const items = Array.from(document.querySelectorAll('.block')).map((el) => {
+        const data = {
+          id: el.dataset.id,
+          type: el.dataset.type,
+          x: parseFloat(el.style.left || '0'),
+          y: parseFloat(el.style.top || '0'),
+          text: el.querySelector('.text') ? el.querySelector('.text').textContent : '',
+          link: el.querySelector('a') ? el.querySelector('a').href : '',
+          src: el.querySelector('img') ? el.querySelector('img').src : ''
+        };
+        return data;
+      });
+      localStorage.setItem('sounavy-editor', JSON.stringify(items));
+    }
+
+    function restoreState() {
+      const raw = localStorage.getItem('sounavy-editor');
+      if (!raw) return;
+      try {
+        const items = JSON.parse(raw);
+        items.forEach(item => {
+          if (item.type === 'image') {
+            const block = createBlock({ x: item.x, y: item.y, type: 'image', url: item.src });
+            const label = document.createElement('div');
+            label.className = 'text';
+            label.textContent = 'imagem';
+            label.style.fontSize = '11px';
+            label.style.marginTop = '8px';
+            block.appendChild(label);
+          } else if (item.type === 'link') {
+            createBlock({ x: item.x, y: item.y, type: 'link', text: item.text || 'Link relacionado', link: item.link });
+          } else {
+            createBlock({ x: item.x, y: item.y, type: item.type, text: item.text || 'Texto' });
+          }
+        });
+      } catch (e) {
+        console.warn('Erro ao restaurar estado', e);
+      }
+    }
+
+    floatingTool.addEventListener('click', () => toolMenu.classList.toggle('show'));
+
+    document.querySelectorAll('.tool-item').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const action = btn.dataset.action;
+        toolMenu.classList.remove('show');
+        if (action === 'close') return;
+        if (action === 'image') {
+          addImageBlock();
+          return;
+        }
+        if (action === 'note') openModal('Nova anotação', 'note');
+        if (action === 'mark') openModal('Marcação', 'mark');
+        if (action === 'link') openModal('Link', 'link');
+        if (action === 'block') openModal('Bloco de texto', 'block');
+      });
+    });
+
+    document.getElementById('cancelNote').addEventListener('click', closeModal);
+    document.getElementById('confirmNote').addEventListener('click', createFromAction);
+    document.getElementById('addText').addEventListener('click', addTextBlock);
+    document.getElementById('addImage').addEventListener('click', addImageBlock);
+    document.getElementById('saveBtn').addEventListener('click', saveState);
+
+    sheet.addEventListener('click', () => {
+      document.querySelectorAll('.block.selected').forEach(el => el.classList.remove('selected'));
+      activeId = null;
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Delete' || e.key === 'Backspace') {
+        if (activeId) {
+          const node = document.querySelector('[data-id="' + activeId + '"]');
+          if (node) node.remove();
+          saveState();
+          activeId = null;
+        }
+      }
+    });
+
+    restoreState();
+  </script>
+</body>
+</html>
