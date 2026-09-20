@@ -3,25 +3,596 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#211a4c">
-  <title>GaIOTh — Fábrica Humana de Livros</title>
+  <meta name="theme-color" content="#20182f">
+  <meta name="description" content="SOUNAVY — almanaque, HQ, cards e biblioteca editorial.">
+  <title>SOUNAVY — Almanaque, HQ e livro</title>
   <style>
-    :root{--ink:#201b38;--violet:#4c3a91;--gold:#e7ad4a;--paper:#fffaf0;--line:#eadfc8;--green:#236b55}
-    *{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#f3ecff,#fffaf0,#e8f5f1);color:var(--ink);font-family:Georgia,serif}main{max-width:900px;margin:auto;padding:24px 16px 60px}.hero,.card{background:#ffffffdf;border:1px solid var(--line);border-radius:24px;padding:24px;margin:16px 0;box-shadow:0 15px 40px #211a4c18}.hero{background:linear-gradient(135deg,#211a4c,#4c3a91);color:var(--paper)}.eyebrow{font:700 .78rem Arial;letter-spacing:.15em;text-transform:uppercase;color:#f7cf74}h1{font-size:clamp(2.3rem,8vw,5rem);line-height:.95;margin:12px 0}h2{margin-top:0}.daily{font-size:1.18rem;line-height:1.6;border-left:4px solid var(--gold);padding-left:16px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{font-weight:bold;display:block}input,select,textarea{width:100%;padding:12px;margin-top:7px;border:1px solid var(--line);border-radius:12px;font:inherit}textarea{min-height:100px}button{border:0;border-radius:12px;padding:13px 17px;background:var(--violet);color:white;font-weight:bold;cursor:pointer;margin-top:12px}.result{white-space:pre-wrap;line-height:1.6;background:#fffdf8;border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:16px}.small{color:#675f80;font:.92rem Arial;line-height:1.5}@media(max-width:600px){.grid{grid-template-columns:1fr}}
+    :root {
+      --ink: #1d1730;
+      --night: #20182f;
+      --violet: #55419a;
+      --violet-soft: #e7e0ff;
+      --gold: #d8a95f;
+      --paper: #fffaf0;
+      --cream: #f3ead9;
+      --sage: #4a6d62;
+      --red: #9f4d4a;
+      --rose: #f6e1dd;
+      --line: #d9c7a7;
+      --radius: 24px;
+      --page-width: 1180px;
+      --gap: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: linear-gradient(180deg, #eae1d3 0%, #f0ebea 100%);
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.6;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+    .page {
+      max-width: var(--page-width);
+      margin: 0 auto;
+      background: rgba(255,250,240,.96);
+      min-height: 100vh;
+      box-shadow: 0 18px 48px rgba(40, 26, 45, .15);
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 5%;
+      border-bottom: 1px solid var(--line);
+      font-family: Arial, Helvetica, sans-serif;
+      background: rgba(255,250,240,.88);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+    }
+    .brand {
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: .36em;
+      text-transform: uppercase;
+    }
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: .73rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .menu a { opacity: .8; }
+    .menu a:hover { opacity: 1; color: var(--red); }
+
+    .hero {
+      padding: 52px 5% 28px;
+      background: linear-gradient(135deg, #1a1830 0%, #382b5a 45%, #6c4e5d 100%);
+      color: #fffaf0;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero::after {
+      content: "✦";
+      position: absolute;
+      right: 6%;
+      bottom: -28px;
+      font-size: 10rem;
+      color: rgba(255,255,255,.08);
+      transform: rotate(-12deg);
+    }
+    .eyebrow {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .8rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    h1, h2, h3 { margin-top: 0; }
+    .hero h1 {
+      margin: 18px 0 16px;
+      max-width: 760px;
+      font-size: clamp(3.3rem, 8vw, 7.2rem);
+      line-height: .88;
+      letter-spacing: -.07em;
+    }
+    .hero p {
+      max-width: 700px;
+      font-size: clamp(1.15rem, 2vw, 1.5rem);
+      color: rgba(255,250,240,.92);
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+      position: relative;
+      z-index: 1;
+    }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: var(--gold);
+      color: var(--night);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,.18);
+    }
+    .button.alt {
+      background: transparent;
+      color: #fffaf0;
+      border-color: rgba(255,255,255,.35);
+    }
+
+    .section { padding: 42px 5%; }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      margin-bottom: 18px;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 12px;
+    }
+    .section-header h2 {
+      margin: 0;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: .92;
+      letter-spacing: -.05em;
+    }
+    .section-header p {
+      margin: 0;
+      max-width: 420px;
+      font-size: 1rem;
+      color: rgba(29,23,48,.75);
+    }
+
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gap); }
+    .card {
+      grid-column: span 4;
+      padding: 22px 22px 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fffdf9;
+      position: relative;
+      overflow: hidden;
+      min-height: 230px;
+    }
+    .card.wide { grid-column: span 8; }
+    .card.hq { background: var(--red); color: #fffaf0; border-color: transparent; }
+    .card.hq p { color: rgba(255,250,240,.92); }
+    .card.gold { background: var(--gold); color: var(--night); }
+    .card.green { background: #eAF3EC; }
+    .card.violet { background: #efeaff; }
+    .card::before {
+      content: "";
+      display: block;
+      width: 42px;
+      height: 5px;
+      background: var(--card-accent, var(--gold));
+      margin-bottom: 24px;
+    }
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      line-height: 1;
+      letter-spacing: -.04em;
+    }
+    .card p { margin-bottom: 0; color: rgba(29,23,48,.8); }
+    .mini {
+      position: absolute;
+      top: 18px; right: 20px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .8rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--card-accent, var(--gold));
+      font-weight: 700;
+    }
+    .card.hq .mini { color: #f7d570; }
+
+    .story-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+    .story {
+      min-height: 330px;
+      background: linear-gradient(150deg, rgba(0,0,0,.06), rgba(0,0,0,.04));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      position: relative;
+      overflow: hidden;
+    }
+    .story:nth-child(1) {
+      background: linear-gradient(180deg, rgba(101,92,150,.25), rgba(255,250,240,.96)),
+                  linear-gradient(135deg, #caa7c5, #ecd2c8);
+    }
+    .story:nth-child(2) {
+      background: linear-gradient(180deg, rgba(54,90,75,.25), rgba(255,250,240,.96)),
+                  linear-gradient(135deg, #b0c4ae, #d8e0cb);
+    }
+    .story:nth-child(3) {
+      background: linear-gradient(180deg, rgba(183,84,58,.2), rgba(255,250,240,.96)),
+                  linear-gradient(135deg, #e0c18a, #edd4b4);
+    }
+    .story-tag {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .75rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(29,23,48,.7);
+      margin-bottom: 8px;
+    }
+    .story h3 {
+      margin-bottom: 10px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      letter-spacing: -.05em;
+      line-height: .95;
+    }
+    .story p { margin: 0; }
+
+    .factory {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: var(--gap);
+      align-items: start;
+    }
+    .stack {
+      display: grid;
+      gap: 14px;
+    }
+    .stack-box {
+      background: #fffdf8;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+    }
+    .stack-box strong { display: block; font-size: 1.05rem; margin-bottom: 8px; }
+    .stack-box p { margin: 0; color: rgba(29,23,48,.75); }
+    .rail {
+      padding: 24px;
+      border-radius: var(--radius);
+      background: linear-gradient(165deg, #2a1c3b 0%, #513d67 100%);
+      color: #fffaf0;
+    }
+    .rail h3 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 14px; }
+    .rail ul {
+      margin: 0;
+      padding-left: 18px;
+      color: rgba(255,250,240,.88);
+      display: grid;
+      gap: 10px;
+    }
+
+    .lab-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: var(--gap);
+    }
+    .lab-card {
+      background: #fffdf8;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px 20px;
+    }
+    .lab-card strong {
+      display: inline-block;
+      font-family: Arial, Helvetica, sans-serif;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-size: .74rem;
+      color: var(--red);
+      margin-bottom: 12px;
+    }
+    .lab-card h3 { font-size: 1.7rem; margin-bottom: 10px; }
+    .lab-card p { margin: 0; color: rgba(29,23,48,.75); }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: var(--gap);
+    }
+    .editorial {
+      background: linear-gradient(180deg, #fffaf0 0%, #f9f0e3 100%);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .editorial h3 {
+      font-size: clamp(1.7rem, 3vw, 2.6rem);
+      margin-bottom: 12px;
+    }
+    .editorial ul {
+      display: grid;
+      gap: 10px;
+      padding-left: 18px;
+      margin: 0;
+      color: rgba(29,23,48,.8);
+    }
+    .mini-panel {
+      background: var(--night);
+      color: #fffaf0;
+      border-radius: var(--radius);
+      padding: 24px;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .mini-panel h3 { font-size: clamp(1.7rem, 3vw, 2.5rem); margin-bottom: 12px; }
+    .mini-panel p { color: rgba(255,250,240,.86); }
+
+    .cta {
+      padding: 42px 5% 68px;
+    }
+    .cta-box {
+      background: linear-gradient(135deg, #20182f, #4c3a6c 60%, #9a4d52 100%);
+      border-radius: 28px;
+      color: #fffaf0;
+      padding: clamp(26px, 5vw, 58px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+    .cta-box h3 {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      margin: 0 0 8px;
+      line-height: .94;
+      letter-spacing: -.05em;
+    }
+    .cta-box p { margin: 0; max-width: 620px; color: rgba(255,250,240,.86); }
+    footer {
+      background: var(--night);
+      color: #fffaf0;
+      padding: 20px 5% 36px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .8rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .footer-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      border-top: 1px solid rgba(255,255,255,.15);
+      padding-top: 16px;
+    }
+
+    @media (max-width: 840px) {
+      .card, .card.wide { grid-column: span 12; }
+      .story-strip, .lab-grid, .factory, .split { grid-template-columns: 1fr; }
+      .menu { gap: 8px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .section-header { display: block; }
+      .section-header p { margin-top: 10px; }
+    }
   </style>
 </head>
 <body>
-<main>
-  <section class="hero"><div class="eyebrow">GaIOTh · A Borda</div><h1>Fábrica Humana de Livros</h1><p>Uma prova de conceito para transformar intenção, pesquisa e imaginação em uma estrutura de obra revisável.</p></section>
-  <section class="card"><h2>Manifesto do dia</h2><p id="daily" class="daily"></p><p class="small">A mensagem muda diariamente. A autoria, a revisão e as decisões continuam humanas.</p></section>
-  <section class="card"><h2>Começar uma obra</h2><p class="small">Este protótipo cria um esqueleto local. Ele não substitui pesquisa, orientação acadêmica, revisão humana ou checagem de fontes.</p><div class="grid"><label>Tipo de obra<select id="kind"><option>Livro</option><option>Almanaque histórico</option><option>Tese</option><option>História em quadrinhos</option><option>Roteiro de filme</option></select></label><label>Público<input id="audience" placeholder="ex.: infantojuvenil, acadêmico"></label></div><label style="margin-top:12px">Ideia central<textarea id="idea" placeholder="Escreva sua ideia, pergunta ou tema"></textarea></label><button id="build">Gerar estrutura inicial</button><div id="result" class="result" hidden></div></section>
-  <section class="card"><h2>As cinco salas</h2><div class="grid"><p><b>1. Semente</b><br>Escutar a ideia e delimitar o problema.</p><p><b>2. Pesquisa</b><br>Separar fatos, fontes, tradições e hipóteses.</p><p><b>3. Oficina</b><br>Construir texto, roteiro, imagens e código.</p><p><b>4. Revisão</b><br>Verificar qualidade, ética e coerência.</p><p><b>5. Lançamento</b><br>Publicar, licenciar, remunerar e continuar.</p></div></section>
-  <footer class="card small">GaIOTh · A Borda · prova de conceito editorial</footer>
-</main>
-<script>
-const messages=['A máquina acelera; a pessoa decide.','Toda contribuição merece registro e reconhecimento.','Conhecimento que gera valor deve retornar para quem o constrói.','A Borda conecta mundos sem apagar diferenças.','Fato, tradição e ficção devem ser identificados.','Nenhum patrocinador compra sozinho a alma da casa.','Criar é imaginar; revisar é assumir responsabilidade.'];
-document.getElementById('daily').textContent='“'+messages[Math.floor(Date.now()/86400000)%messages.length]+'”';
-document.getElementById('build').onclick=()=>{const kind=document.getElementById('kind').value,a=document.getElementById('audience').value||'leitor definido pelo autor',idea=document.getElementById('idea').value.trim(),r=document.getElementById('result');if(!idea){r.hidden=false;r.textContent='Escreva uma ideia para começar.';return}r.hidden=false;r.textContent=`TÍTULO PROVISÓRIO\nA definir a partir de: ${idea}\n\nTIPO\n${kind}\n\nPÚBLICO\n${a}\n\nESTRUTURA INICIAL\n1. Pergunta central e objetivo\n2. Contexto e personagens\n3. Pesquisa e fontes a verificar\n4. Desenvolvimento em capítulos ou cenas\n5. Revisão humana e classificação: fato, tradição ou ficção\n6. Versão para publicação\n\nPRÓXIMO PASSO\nEscolha as fontes, revise a estrutura e registre as contribuições. O GaIOTh ajuda a construir; a autoria e a decisão continuam humanas.`};
-</script>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">SOUNAVY</div>
+      <nav class="menu" aria-label="Navegação principal">
+        <a href="#almanaque">Almanaque</a>
+        <a href="#hq">HQ</a>
+        <a href="#fabrica">Fábrica</a>
+        <a href="#lab">Laboratório</a>
+        <a href="vendas.html">Contato</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow">SOUNAVY · universo em construção</div>
+        <h1>Histórias para ver, ler, montar e continuar.</h1>
+        <p>Um almanaque editorial, uma biblioteca viva, uma HQ em movimento e um livro que cresce com o universo. O SOUNAVY é um lugar onde a imagem, o texto e a narrativa se reforçam sem perder a liberdade criativa.</p>
+        <div class="actions">
+          <a class="button" href="#almanaque">Explorar universo</a>
+          <a class="button alt" href="vendas.html">Falar com a fábrica</a>
+        </div>
+      </section>
+
+      <section class="section" id="almanaque">
+        <div class="section-header">
+          <h2>Almanaque SOUNAVY</h2>
+          <p>Uma diagramação viva, ajustável, com cultura, contexto, ilustração e leitura em movimento.</p>
+        </div>
+        <div class="grid">
+          <article class="card wide violet" style="--card-accent: var(--gold);">
+            <span class="mini">01</span>
+            <h3>A obra não precisa seguir um único molde.</h3>
+            <p>O almanaque funciona como um grande caderno de mundo: carta de personagens, mapa, cronologia, curiosidades, fichas, pequenas histórias e texto vivo.</p>
+          </article>
+          <article class="card hq" style="--card-accent: var(--gold);">
+            <span class="mini">02</span>
+            <h3>HQ + ilustração</h3>
+            <p>Cenas em quadrinhos, quadros de ação, imagens com contexto e ritmo visual para contar o universo de um jeito direto.</p>
+          </article>
+          <article class="card gold" style="--card-accent: var(--violet);">
+            <span class="mini">03</span>
+            <h3>Livro profundo</h3>
+            <p>Uma narrativa mais longa, com imersão, personagens e cenário, em páginas pensadas para a leitura lenta e emocional.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="hq">
+        <div class="section-header">
+          <h2>Três histórias / três fases</h2>
+          <p>As histórias podem ser montadas como início, meio e fim — ou como três linhas narrativas independentes.</p>
+        </div>
+        <div class="story-strip">
+          <article class="story">
+            <div class="story-tag">Fase 1</div>
+            <h3>O começo</h3>
+            <p>O ponto de partida do mundo, dos personagens e da primeira pergunta que gera a trama.</p>
+          </article>
+          <article class="story">
+            <div class="story-tag">Fase 2</div>
+            <h3>O meio</h3>
+            <p>Conflitos, escolhas, revelações e a transformação do universo em movimento.</p>
+          </article>
+          <article class="story">
+            <div class="story-tag">Fase 3</div>
+            <h3>O fim</h3>
+            <p>Revelação, desfecho, ressonância e a profundidade emocional da obra.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="fabrica">
+        <div class="section-header">
+          <h2>A fábrica SOUNAVY</h2>
+          <p>O mesmo universo pode virar livro, almanaque, HQ, ficha de personagem ou card colecionável.</p>
+        </div>
+        <div class="factory">
+          <div class="stack">
+            <div class="stack-box">
+              <strong>1. Banco do universo</strong>
+              <p>Personagens, locais, objetos, cronologia, imagens, textos e ideias em desenvolvimento.</p>
+            </div>
+            <div class="stack-box">
+              <strong>2. Produção editorial</strong>
+              <p>Livro, almanaque, HQ e cards. O mesmo conteúdo pode ser adaptado em vários formatos.</p>
+            </div>
+            <div class="stack-box">
+              <strong>3. Redutor de imagem</strong>
+              <p>Imagem entra pesada, é reduzida e salva em uma versão leve para o projeto.</p>
+            </div>
+          </div>
+          <aside class="rail">
+            <h3>Fluxo da criação</h3>
+            <ul>
+              <li>Ideia entra no universo.</li>
+              <li>Imagem é reduzida e salva.</li>
+              <li>Texto ganha estrutura.</li>
+              <li>O conteúdo vira página, box ou prancha.</li>
+              <li>O projeto continua salvo, mesmo após desligar.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <h2>Modelos de obra</h2>
+          <p>Os formatos se conectam entre si dentro do mesmo universo. Nenhum apaga o outro.</p>
+        </div>
+        <div class="grid">
+          <article class="card" style="--card-accent: var(--violet);">
+            <span class="mini">Livro</span>
+            <h3>Imersão e narrativa</h3>
+            <p>Texto de qualidade, margens generosas, serifa, capítulos e profundidade psicológica dos personagens.</p>
+          </article>
+          <article class="card" style="--card-accent: var(--sage);">
+            <span class="mini">Almanaque</span>
+            <h3>Variedade e curiosidades</h3>
+            <p>Grade dinâmica, infográficos, mapas, linhas do tempo, receitas, bastidores e passatempos.</p>
+          </article>
+          <article class="card hq" style="--card-accent: var(--gold);">
+            <span class="mini">HQ</span>
+            <h3>Ritmo e ação</h3>
+            <p>Quadros, balões, calhas, impactação visual e cenas desenhadas para entregar a energia da história.</p>
+          </article>
+          <article class="card green" style="--card-accent: var(--red);">
+            <span class="mini">Cards</span>
+            <h3>Personagens e itens</h3>
+            <p>Fichas colecionáveis, atributos, habilidades, ilustrações e a identidade de cada peça do universo.</p>
+          </article>
+          <article class="card wide gold" style="--card-accent: var(--violet);">
+            <span class="mini">Filosofia</span>
+            <h3>O livro aprofunda, o almanaque expande, a HQ dramatiza e o card sintetiza.</h3>
+            <p>Essa é a base do universo SOUNAVY: cada formato funciona como uma camada diferente da mesma ideia, sem perder a continuidade.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="lab">
+        <div class="section-header">
+          <h2>Laboratório IA + Robô</h2>
+          <p>Uma IA pode sugerir, organizar e melhorar o conteúdo; o robô executa tarefas repetitivas com objetividade.</p>
+        </div>
+        <div class="lab-grid">
+          <article class="lab-card">
+            <strong>IA</strong>
+            <h3>Assistente de criação</h3>
+            <p>Organiza personagens, resumos, capítulos, diálogos, contexto, revisões e sugestões sem apagar a voz do autor.</p>
+          </article>
+          <article class="lab-card">
+            <strong>Robô</strong>
+            <h3>Produção editorial</h3>
+            <p>Reduz imagens, organiza arquivos, cria páginas, salva backups e monta os blocos do projeto em sequência.</p>
+          </article>
+          <article class="lab-card">
+            <strong>Corretor</strong>
+            <h3>Ortografia e semântica</h3>
+            <p>Melhora falas, corrige erros, sugere expressões mais fortes e preserva a identidade literária do texto.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <h2>Diagramação do livro e do almanaque</h2>
+          <p>Manual, ajustável e pensada para um visual editorial forte, sem perder fluidez.</p>
+        </div>
+        <div class="split">
+          <div class="editorial">
+            <h3>Livro</h3>
+            <ul>
+              <li>Formato: 14 × 21 cm ou 16 × 23 cm.</li>
+              <li>Margens generosas e leitura confortável.</li>
+              <li>Texto justificado e fonte serifada.</li>
+              <li>Capitulares ilustradas e pequenos elementos visuais.</li>
+              <li>Mapa, cronologia e apêndice para a imersão.</li>
+            </ul>
+          </div>
+          <div class="mini-panel">
+            <h3>Almanaque</h3>
+            <p>Uma leitura mais variada, dinâmica e visual, com grades, curiosidades, imagens, boxes, mapas, fichas, testes e passatempos.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta">
+        <div class="cta-box">
+          <div>
+            <h3>Uma fábrica para o universo.</h3>
+            <p>O SOUNAVY pode crescer como livro, almanaque, HQ, cards e laboratório editorial com a mesma identidade.</p>
+          </div>
+          <a class="button alt" href="vendas.html">Iniciar conversa</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-line">
+        <span>SOUNAVY</span>
+        <span>Almanaque · HQ · Livro · Cards</span>
+      </div>
+    </footer>
+  </div>
 </body>
 </html>
