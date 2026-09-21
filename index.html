@@ -4,22 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#20182f">
-  <meta name="description" content="SOUNAVY — almanaque, HQ, cards e biblioteca editorial.">
-  <title>SOUNAVY — Almanaque, HQ e livro</title>
+  <meta name="description" content="Dr. Alberto Elias BR — consultório e fábrica de livros, projetos editoriais, edição e estrutura narrativa.">
+  <title>Dr. Alberto Elias BR — Consultório &amp; Fábrica de Livros</title>
   <style>
     :root {
       --ink: #1d1730;
       --night: #20182f;
       --violet: #55419a;
-      --violet-soft: #e7e0ff;
-      --gold: #d8a95f;
+      --purple-deep: #2e2147;
+      --gold: #d7a75d;
       --paper: #fffaf0;
       --cream: #f3ead9;
-      --sage: #4a6d62;
-      --red: #9f4d4a;
-      --rose: #f6e1dd;
+      --sage: #496d5d;
+      --red: #9d4d4d;
       --line: #d9c7a7;
-      --radius: 24px;
+      --radius: 22px;
       --page-width: 1180px;
       --gap: 18px;
     }
@@ -29,19 +28,21 @@
     body {
       margin: 0;
       color: var(--ink);
-      background: linear-gradient(180deg, #eae1d3 0%, #f0ebea 100%);
+      background: linear-gradient(180deg, #eadfc8 0%, #f3eee7 100%);
       font-family: Georgia, "Times New Roman", serif;
       line-height: 1.6;
     }
-    img { max-width: 100%; height: auto; display: block; }
+    img { max-width: 100%; display: block; }
     a { color: inherit; text-decoration: none; }
+
     .page {
       max-width: var(--page-width);
       margin: 0 auto;
-      background: rgba(255,250,240,.96);
+      background: rgba(255, 250, 240, 0.96);
       min-height: 100vh;
-      box-shadow: 0 18px 48px rgba(40, 26, 45, .15);
+      box-shadow: 0 18px 48px rgba(40, 26, 45, .12);
     }
+
     .topbar {
       display: flex;
       align-items: center;
@@ -50,65 +51,74 @@
       padding: 18px 5%;
       border-bottom: 1px solid var(--line);
       font-family: Arial, Helvetica, sans-serif;
-      background: rgba(255,250,240,.88);
+      background: rgba(255,250,240,.9);
       position: sticky;
       top: 0;
       z-index: 20;
       backdrop-filter: blur(10px);
     }
+
     .brand {
-      font-size: 1rem;
+      font-size: .95rem;
       font-weight: 800;
-      letter-spacing: .36em;
+      letter-spacing: .32em;
       text-transform: uppercase;
     }
+
     .menu {
       display: flex;
       flex-wrap: wrap;
       gap: 14px;
-      font-size: .73rem;
+      font-size: .72rem;
       letter-spacing: .12em;
       text-transform: uppercase;
     }
+
     .menu a { opacity: .8; }
     .menu a:hover { opacity: 1; color: var(--red); }
 
     .hero {
-      padding: 52px 5% 28px;
-      background: linear-gradient(135deg, #1a1830 0%, #382b5a 45%, #6c4e5d 100%);
+      padding: 54px 5% 34px;
+      background: linear-gradient(135deg, #1a1830 0%, #342952 45%, #735a5d 100%);
       color: #fffaf0;
-      overflow: hidden;
       position: relative;
+      overflow: hidden;
     }
+
     .hero::after {
       content: "✦";
       position: absolute;
-      right: 6%;
+      right: 7%;
       bottom: -28px;
       font-size: 10rem;
       color: rgba(255,255,255,.08);
       transform: rotate(-12deg);
     }
+
     .eyebrow {
       font-family: Arial, Helvetica, sans-serif;
-      font-size: .8rem;
-      letter-spacing: .2em;
+      font-size: .76rem;
+      letter-spacing: .18em;
       text-transform: uppercase;
       color: var(--gold);
     }
+
     h1, h2, h3 { margin-top: 0; }
+
     .hero h1 {
       margin: 18px 0 16px;
       max-width: 760px;
-      font-size: clamp(3.3rem, 8vw, 7.2rem);
-      line-height: .88;
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      line-height: .9;
       letter-spacing: -.07em;
     }
+
     .hero p {
       max-width: 700px;
-      font-size: clamp(1.15rem, 2vw, 1.5rem);
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
       color: rgba(255,250,240,.92);
     }
+
     .actions {
       display: flex;
       flex-wrap: wrap;
@@ -117,6 +127,7 @@
       position: relative;
       z-index: 1;
     }
+
     .button {
       display: inline-flex;
       align-items: center;
@@ -131,8 +142,9 @@
       text-transform: uppercase;
       letter-spacing: .12em;
       font-weight: 700;
-      border: 1px solid rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.2);
     }
+
     .button.alt {
       background: transparent;
       color: #fffaf0;
@@ -140,6 +152,7 @@
     }
 
     .section { padding: 42px 5%; }
+
     .section-header {
       display: flex;
       justify-content: space-between;
@@ -149,134 +162,138 @@
       border-bottom: 2px solid var(--ink);
       padding-bottom: 12px;
     }
+
     .section-header h2 {
       margin: 0;
-      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-size: clamp(2.2rem, 4vw, 3.8rem);
       line-height: .92;
       letter-spacing: -.05em;
     }
+
     .section-header p {
       margin: 0;
-      max-width: 420px;
+      max-width: 460px;
       font-size: 1rem;
       color: rgba(29,23,48,.75);
     }
 
-    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gap); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: var(--gap);
+    }
+
     .card {
       grid-column: span 4;
-      padding: 22px 22px 18px;
+      padding: 24px 22px 20px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: #fffdf9;
       position: relative;
       overflow: hidden;
-      min-height: 230px;
+      min-height: 220px;
     }
+
     .card.wide { grid-column: span 8; }
-    .card.hq { background: var(--red); color: #fffaf0; border-color: transparent; }
-    .card.hq p { color: rgba(255,250,240,.92); }
-    .card.gold { background: var(--gold); color: var(--night); }
-    .card.green { background: #eAF3EC; }
     .card.violet { background: #efeaff; }
+    .card.gold { background: var(--gold); color: var(--night); }
+    .card.red { background: var(--red); color: #fffaf0; border-color: transparent; }
+    .card.green { background: #edf5f0; }
+
     .card::before {
       content: "";
       display: block;
       width: 42px;
       height: 5px;
       background: var(--card-accent, var(--gold));
-      margin-bottom: 24px;
+      margin-bottom: 22px;
     }
+
     .card h3 {
       margin-bottom: 10px;
-      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
       line-height: 1;
       letter-spacing: -.04em;
     }
-    .card p { margin-bottom: 0; color: rgba(29,23,48,.8); }
+
+    .card p { margin: 0; color: rgba(29,23,48,.8); }
+    .card.red p { color: rgba(255,250,240,.92); }
+
     .mini {
       position: absolute;
       top: 18px; right: 20px;
       font-family: Arial, Helvetica, sans-serif;
-      font-size: .8rem;
-      letter-spacing: .15em;
+      font-size: .78rem;
+      letter-spacing: .14em;
       text-transform: uppercase;
       color: var(--card-accent, var(--gold));
       font-weight: 700;
     }
-    .card.hq .mini { color: #f7d570; }
 
-    .story-strip {
+    .card.red .mini { color: #f2d278; }
+
+    .process {
       display: grid;
       grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: 18px;
+      gap: var(--gap);
       margin-top: 24px;
     }
-    .story {
-      min-height: 330px;
-      background: linear-gradient(150deg, rgba(0,0,0,.06), rgba(0,0,0,.04));
+
+    .step {
+      background: #fffdf8;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      justify-content: end;
-      position: relative;
-      overflow: hidden;
+      padding: 22px 20px;
     }
-    .story:nth-child(1) {
-      background: linear-gradient(180deg, rgba(101,92,150,.25), rgba(255,250,240,.96)),
-                  linear-gradient(135deg, #caa7c5, #ecd2c8);
-    }
-    .story:nth-child(2) {
-      background: linear-gradient(180deg, rgba(54,90,75,.25), rgba(255,250,240,.96)),
-                  linear-gradient(135deg, #b0c4ae, #d8e0cb);
-    }
-    .story:nth-child(3) {
-      background: linear-gradient(180deg, rgba(183,84,58,.2), rgba(255,250,240,.96)),
-                  linear-gradient(135deg, #e0c18a, #edd4b4);
-    }
-    .story-tag {
+
+    .step strong {
+      display: inline-block;
       font-family: Arial, Helvetica, sans-serif;
-      font-size: .75rem;
-      letter-spacing: .14em;
+      font-size: .74rem;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      color: rgba(29,23,48,.7);
-      margin-bottom: 8px;
+      color: var(--red);
+      margin-bottom: 12px;
     }
-    .story h3 {
-      margin-bottom: 10px;
-      font-size: clamp(1.8rem, 4vw, 3rem);
-      letter-spacing: -.05em;
-      line-height: .95;
-    }
-    .story p { margin: 0; }
+
+    .step h3 { font-size: 1.6rem; margin-bottom: 10px; }
+    .step p { margin: 0; color: rgba(29,23,48,.75); }
 
     .factory {
       display: grid;
-      grid-template-columns: 1.2fr 1fr;
+      grid-template-columns: 1.15fr .85fr;
       gap: var(--gap);
       align-items: start;
     }
+
     .stack {
       display: grid;
       gap: 14px;
     }
+
     .stack-box {
       background: #fffdf8;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 18px 20px;
     }
-    .stack-box strong { display: block; font-size: 1.05rem; margin-bottom: 8px; }
+
+    .stack-box strong {
+      display: block;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+
     .stack-box p { margin: 0; color: rgba(29,23,48,.75); }
+
     .rail {
       padding: 24px;
       border-radius: var(--radius);
-      background: linear-gradient(165deg, #2a1c3b 0%, #513d67 100%);
+      background: linear-gradient(165deg, #2b1d3f 0%, #4e3d68 100%);
       color: #fffaf0;
     }
-    .rail h3 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 14px; }
+
+    .rail h3 { font-size: clamp(1.8rem, 3vw, 2.7rem); margin-bottom: 14px; }
     .rail ul {
       margin: 0;
       padding-left: 18px;
@@ -285,51 +302,32 @@
       gap: 10px;
     }
 
-    .lab-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: var(--gap);
-    }
-    .lab-card {
-      background: #fffdf8;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 22px 20px;
-    }
-    .lab-card strong {
-      display: inline-block;
-      font-family: Arial, Helvetica, sans-serif;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      font-size: .74rem;
-      color: var(--red);
-      margin-bottom: 12px;
-    }
-    .lab-card h3 { font-size: 1.7rem; margin-bottom: 10px; }
-    .lab-card p { margin: 0; color: rgba(29,23,48,.75); }
-
     .split {
       display: grid;
       grid-template-columns: 1.08fr .92fr;
       gap: var(--gap);
     }
+
     .editorial {
-      background: linear-gradient(180deg, #fffaf0 0%, #f9f0e3 100%);
+      background: linear-gradient(180deg, #fffaf0 0%, #f7ebdb 100%);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 24px;
     }
+
     .editorial h3 {
-      font-size: clamp(1.7rem, 3vw, 2.6rem);
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
       margin-bottom: 12px;
     }
+
     .editorial ul {
       display: grid;
       gap: 10px;
-      padding-left: 18px;
       margin: 0;
+      padding-left: 18px;
       color: rgba(29,23,48,.8);
     }
+
     .mini-panel {
       background: var(--night);
       color: #fffaf0;
@@ -337,30 +335,35 @@
       padding: 24px;
       border: 1px solid rgba(255,255,255,.08);
     }
-    .mini-panel h3 { font-size: clamp(1.7rem, 3vw, 2.5rem); margin-bottom: 12px; }
+
+    .mini-panel h3 { font-size: clamp(1.7rem, 3vw, 2.4rem); margin-bottom: 12px; }
     .mini-panel p { color: rgba(255,250,240,.86); }
 
     .cta {
       padding: 42px 5% 68px;
     }
+
     .cta-box {
       background: linear-gradient(135deg, #20182f, #4c3a6c 60%, #9a4d52 100%);
       border-radius: 28px;
       color: #fffaf0;
-      padding: clamp(26px, 5vw, 58px);
+      padding: clamp(26px, 5vw, 56px);
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 22px;
       flex-wrap: wrap;
     }
+
     .cta-box h3 {
-      font-size: clamp(2.2rem, 5vw, 4rem);
       margin: 0 0 8px;
+      font-size: clamp(2.2rem, 5vw, 4rem);
       line-height: .94;
       letter-spacing: -.05em;
     }
+
     .cta-box p { margin: 0; max-width: 620px; color: rgba(255,250,240,.86); }
+
     footer {
       background: var(--night);
       color: #fffaf0;
@@ -370,6 +373,7 @@
       letter-spacing: .08em;
       text-transform: uppercase;
     }
+
     .footer-line {
       display: flex;
       justify-content: space-between;
@@ -382,7 +386,7 @@
 
     @media (max-width: 840px) {
       .card, .card.wide { grid-column: span 12; }
-      .story-strip, .lab-grid, .factory, .split { grid-template-columns: 1fr; }
+      .process, .factory, .split { grid-template-columns: 1fr; }
       .menu { gap: 8px; }
       .topbar { align-items: flex-start; flex-direction: column; }
       .section-header { display: block; }
@@ -393,103 +397,150 @@
 <body>
   <div class="page">
     <header class="topbar">
-      <div class="brand">SOUNAVY</div>
+      <div class="brand">Dr. Alberto Elias BR</div>
       <nav class="menu" aria-label="Navegação principal">
-        <a href="#almanaque">Almanaque</a>
-        <a href="#hq">HQ</a>
+        <a href="#consultorio">Consultório</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#processo">Processo</a>
         <a href="#fabrica">Fábrica</a>
-        <a href="#lab">Laboratório</a>
         <a href="vendas.html">Contato</a>
       </nav>
     </header>
 
     <main>
       <section class="hero">
-        <div class="eyebrow">SOUNAVY · universo em construção</div>
-        <h1>Histórias para ver, ler, montar e continuar.</h1>
-        <p>Um almanaque editorial, uma biblioteca viva, uma HQ em movimento e um livro que cresce com o universo. O SOUNAVY é um lugar onde a imagem, o texto e a narrativa se reforçam sem perder a liberdade criativa.</p>
+        <div class="eyebrow">Consultório editorial · fábrica de livros</div>
+        <h1>Seu livro começa com clareza, forma e presença.</h1>
+        <p>Transformamos ideia em obra: livro, tese, almanaque, roteiro, projeto editorial e conteúdo com estrutura para ser lido, vendido e reconhecido.</p>
         <div class="actions">
-          <a class="button" href="#almanaque">Explorar universo</a>
-          <a class="button alt" href="vendas.html">Falar com a fábrica</a>
+          <a class="button" href="#servicos">Ver serviços</a>
+          <a class="button alt" href="vendas.html">Falar com o consultório</a>
         </div>
       </section>
 
-      <section class="section" id="almanaque">
+      <section class="section" id="consultorio">
         <div class="section-header">
-          <h2>Almanaque SOUNAVY</h2>
-          <p>Uma diagramação viva, ajustável, com cultura, contexto, ilustração e leitura em movimento.</p>
+          <h2>Consultório editorial</h2>
+          <p>O trabalho começa pela ideia, passa pela estrutura e termina em uma obra que funciona de verdade.</p>
         </div>
+
         <div class="grid">
           <article class="card wide violet" style="--card-accent: var(--gold);">
             <span class="mini">01</span>
-            <h3>A obra não precisa seguir um único molde.</h3>
-            <p>O almanaque funciona como um grande caderno de mundo: carta de personagens, mapa, cronologia, curiosidades, fichas, pequenas histórias e texto vivo.</p>
+            <h3>O projeto precisa ser compreensível antes de ser bonito.</h3>
+            <p>Antes de qualquer página, o conteúdo precisa ter direção, público, tom, ritmo e objetivo. Isso é o que torna a obra forte e consistente.</p>
           </article>
-          <article class="card hq" style="--card-accent: var(--gold);">
+
+          <article class="card red" style="--card-accent: var(--gold);">
             <span class="mini">02</span>
-            <h3>HQ + ilustração</h3>
-            <p>Cenas em quadrinhos, quadros de ação, imagens com contexto e ritmo visual para contar o universo de um jeito direto.</p>
+            <h3>Estrutura e narrativa</h3>
+            <p>Organizamos ideias, capítulos, referências, objetivos e fluxo editorial para que a obra avance sem perder foco.</p>
           </article>
+
           <article class="card gold" style="--card-accent: var(--violet);">
             <span class="mini">03</span>
-            <h3>Livro profundo</h3>
-            <p>Uma narrativa mais longa, com imersão, personagens e cenário, em páginas pensadas para a leitura lenta e emocional.</p>
+            <h3>Leitura em profundidade</h3>
+            <p>O texto ganha clareza, autoridade e leitura agradável, com atenção para a linguagem, a emoção e a intenção do autor.</p>
           </article>
         </div>
       </section>
 
-      <section class="section" id="hq">
+      <section class="section" id="servicos">
         <div class="section-header">
-          <h2>Três histórias / três fases</h2>
-          <p>As histórias podem ser montadas como início, meio e fim — ou como três linhas narrativas independentes.</p>
+          <h2>Serviços de fábrica</h2>
+          <p>O mesmo autor pode criar vários formatos a partir de um mesmo núcleo intelectual.</p>
         </div>
-        <div class="story-strip">
-          <article class="story">
-            <div class="story-tag">Fase 1</div>
-            <h3>O começo</h3>
-            <p>O ponto de partida do mundo, dos personagens e da primeira pergunta que gera a trama.</p>
+
+        <div class="grid">
+          <article class="card" style="--card-accent: var(--violet);">
+            <span class="mini">Livro</span>
+            <h3>Livro de autor</h3>
+            <p>Estrutura, revisão, organização editorial e acabamento para quem quer publicar com qualidade e identidade.</p>
           </article>
-          <article class="story">
-            <div class="story-tag">Fase 2</div>
-            <h3>O meio</h3>
-            <p>Conflitos, escolhas, revelações e a transformação do universo em movimento.</p>
+
+          <article class="card green" style="--card-accent: var(--red);">
+            <span class="mini">Tese</span>
+            <h3>Projeto acadêmico</h3>
+            <p>Organização lógica do conteúdo, desenvolvimento do argumento e maior legibilidade para a leitura técnica.</p>
           </article>
-          <article class="story">
-            <div class="story-tag">Fase 3</div>
-            <h3>O fim</h3>
-            <p>Revelação, desfecho, ressonância e a profundidade emocional da obra.</p>
+
+          <article class="card red" style="--card-accent: var(--gold);">
+            <span class="mini">Almanaque</span>
+            <h3>Obra variada</h3>
+            <p>Conceito visual, mapas, cronologia, fichas e blocos de leitura para universos ricos e expandíveis.</p>
+          </article>
+
+          <article class="card gold" style="--card-accent: var(--violet);">
+            <span class="mini">Roteiro</span>
+            <h3>Histórias e projetos</h3>
+            <p>Estrutura narrativa para roteiro, HQ, série, material audiovisual e narrativas com força dramática.</p>
+          </article>
+
+          <article class="card wide violet" style="--card-accent: var(--gold);">
+            <span class="mini">Filosofia</span>
+            <h3>Uma obra sólida não nasce só da vontade de escrever. Ela nasce do desenho do que ela quer ser.</h3>
+            <p>O consultório cuida do conceito, a f��brica cuida da execução e o projeto ganha forma sem perder a voz do autor.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="processo">
+        <div class="section-header">
+          <h2>Como funciona o processo</h2>
+          <p>O projeto evolui em etapas claras, sem perder a originalidade e a direção do autor.</p>
+        </div>
+
+        <div class="process">
+          <article class="step">
+            <strong>01</strong>
+            <h3>Conversa inicial</h3>
+            <p>Entendemos a ideia, o público, o formato desejado e a intenção da obra.</p>
+          </article>
+
+          <article class="step">
+            <strong>02</strong>
+            <h3>Estrutura e direção</h3>
+            <p>Montamos o mapa do projeto: capítulos, blocos, argumento, objetivos e sequência de leitura.</p>
+          </article>
+
+          <article class="step">
+            <strong>03</strong>
+            <h3>Produção e refinamento</h3>
+            <p>Revisamos, organizamos e ajustamos o material para que a obra fique clara, forte e pronta para avançar.</p>
           </article>
         </div>
       </section>
 
       <section class="section" id="fabrica">
         <div class="section-header">
-          <h2>A fábrica SOUNAVY</h2>
-          <p>O mesmo universo pode virar livro, almanaque, HQ, ficha de personagem ou card colecionável.</p>
+          <h2>Fábrica de criação</h2>
+          <p>Uma obra pode virar livro, almanaque, material editorial, roteiro ou sequência de projetos complementares.</p>
         </div>
+
         <div class="factory">
           <div class="stack">
             <div class="stack-box">
-              <strong>1. Banco do universo</strong>
-              <p>Personagens, locais, objetos, cronologia, imagens, textos e ideias em desenvolvimento.</p>
+              <strong>1. Ideia e comando</strong>
+              <p>O projeto ganha direção e foco antes de entrar em produção.</p>
             </div>
             <div class="stack-box">
-              <strong>2. Produção editorial</strong>
-              <p>Livro, almanaque, HQ e cards. O mesmo conteúdo pode ser adaptado em vários formatos.</p>
+              <strong>2. Organização do conteúdo</strong>
+              <p>Capítulos, blocos, arquitetura, referências e linguagem são ajustados para a leitura.</p>
             </div>
             <div class="stack-box">
-              <strong>3. Redutor de imagem</strong>
-              <p>Imagem entra pesada, é reduzida e salva em uma versão leve para o projeto.</p>
+              <strong>3. Execução editorial</strong>
+              <p>O material é refinado, revisado e preparado para ser publicado ou expandido.</p>
             </div>
           </div>
+
           <aside class="rail">
-            <h3>Fluxo da criação</h3>
+            <h3>Fluxo do projeto</h3>
             <ul>
-              <li>Ideia entra no universo.</li>
-              <li>Imagem é reduzida e salva.</li>
+              <li>Ideia entra com direção.</li>
               <li>Texto ganha estrutura.</li>
-              <li>O conteúdo vira página, box ou prancha.</li>
-              <li>O projeto continua salvo, mesmo após desligar.</li>
+              <li>Conteúdo é revisado e refinado.</li>
+              <li>Obra vira livro, roteiro ou material editorial.</li>
+              <li>Projeto continua aberto para evoluir.</li>
             </ul>
           </aside>
         </div>
@@ -497,81 +548,24 @@
 
       <section class="section">
         <div class="section-header">
-          <h2>Modelos de obra</h2>
-          <p>Os formatos se conectam entre si dentro do mesmo universo. Nenhum apaga o outro.</p>
+          <h2>Estrutura editorial</h2>
+          <p>O visual, o texto e a organização funcional caminham juntos.</p>
         </div>
-        <div class="grid">
-          <article class="card" style="--card-accent: var(--violet);">
-            <span class="mini">Livro</span>
-            <h3>Imersão e narrativa</h3>
-            <p>Texto de qualidade, margens generosas, serifa, capítulos e profundidade psicológica dos personagens.</p>
-          </article>
-          <article class="card" style="--card-accent: var(--sage);">
-            <span class="mini">Almanaque</span>
-            <h3>Variedade e curiosidades</h3>
-            <p>Grade dinâmica, infográficos, mapas, linhas do tempo, receitas, bastidores e passatempos.</p>
-          </article>
-          <article class="card hq" style="--card-accent: var(--gold);">
-            <span class="mini">HQ</span>
-            <h3>Ritmo e ação</h3>
-            <p>Quadros, balões, calhas, impactação visual e cenas desenhadas para entregar a energia da história.</p>
-          </article>
-          <article class="card green" style="--card-accent: var(--red);">
-            <span class="mini">Cards</span>
-            <h3>Personagens e itens</h3>
-            <p>Fichas colecionáveis, atributos, habilidades, ilustrações e a identidade de cada peça do universo.</p>
-          </article>
-          <article class="card wide gold" style="--card-accent: var(--violet);">
-            <span class="mini">Filosofia</span>
-            <h3>O livro aprofunda, o almanaque expande, a HQ dramatiza e o card sintetiza.</h3>
-            <p>Essa é a base do universo SOUNAVY: cada formato funciona como uma camada diferente da mesma ideia, sem perder a continuidade.</p>
-          </article>
-        </div>
-      </section>
 
-      <section class="section" id="lab">
-        <div class="section-header">
-          <h2>Laboratório IA + Robô</h2>
-          <p>Uma IA pode sugerir, organizar e melhorar o conteúdo; o robô executa tarefas repetitivas com objetividade.</p>
-        </div>
-        <div class="lab-grid">
-          <article class="lab-card">
-            <strong>IA</strong>
-            <h3>Assistente de criação</h3>
-            <p>Organiza personagens, resumos, capítulos, diálogos, contexto, revisões e sugestões sem apagar a voz do autor.</p>
-          </article>
-          <article class="lab-card">
-            <strong>Robô</strong>
-            <h3>Produção editorial</h3>
-            <p>Reduz imagens, organiza arquivos, cria páginas, salva backups e monta os blocos do projeto em sequência.</p>
-          </article>
-          <article class="lab-card">
-            <strong>Corretor</strong>
-            <h3>Ortografia e semântica</h3>
-            <p>Melhora falas, corrige erros, sugere expressões mais fortes e preserva a identidade literária do texto.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-header">
-          <h2>Diagramação do livro e do almanaque</h2>
-          <p>Manual, ajustável e pensada para um visual editorial forte, sem perder fluidez.</p>
-        </div>
         <div class="split">
           <div class="editorial">
             <h3>Livro</h3>
             <ul>
-              <li>Formato: 14 × 21 cm ou 16 × 23 cm.</li>
-              <li>Margens generosas e leitura confortável.</li>
-              <li>Texto justificado e fonte serifada.</li>
-              <li>Capitulares ilustradas e pequenos elementos visuais.</li>
-              <li>Mapa, cronologia e apêndice para a imersão.</li>
+              <li>Leitura confortável e foco narrativo.</li>
+              <li>Estrutura clara com capítulos ou blocos.</li>
+              <li>Texto com ritmo, consistência e profundidade.</li>
+              <li>Formato pensando para publicação e impacto.</li>
             </ul>
           </div>
+
           <div class="mini-panel">
-            <h3>Almanaque</h3>
-            <p>Uma leitura mais variada, dinâmica e visual, com grades, curiosidades, imagens, boxes, mapas, fichas, testes e passatempos.</p>
+            <h3>Almanaque e material complementar</h3>
+            <p>Além do livro, o universo pode se expandir em fichas, mapas, cronologia, ideias complementares e material visual para ampliar a obra.</p>
           </div>
         </div>
       </section>
@@ -579,8 +573,8 @@
       <section class="cta">
         <div class="cta-box">
           <div>
-            <h3>Uma fábrica para o universo.</h3>
-            <p>O SOUNAVY pode crescer como livro, almanaque, HQ, cards e laboratório editorial com a mesma identidade.</p>
+            <h3>Uma obra bem feita tem começo, rumo e acabamento.</h3>
+            <p>Se a ideia já existe, o próximo passo é transformar isso em formato, estrutura e presença editorial.</p>
           </div>
           <a class="button alt" href="vendas.html">Iniciar conversa</a>
         </div>
@@ -589,8 +583,8 @@
 
     <footer>
       <div class="footer-line">
-        <span>SOUNAVY</span>
-        <span>Almanaque · HQ · Livro · Cards</span>
+        <span>Dr. Alberto Elias BR</span>
+        <span>Consultório · Fábrica · Editorial</span>
       </div>
     </footer>
   </div>
